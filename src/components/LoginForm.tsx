@@ -82,7 +82,7 @@ const LoginForm: React.FC = () => {
             <Button className="login-form-button" variant="contained">Login</Button>
 
             <div className="login-form-wrapper">
-                <Link component={"a"} href="/" underline="hover" color="inherit">Create Account</Link>
+                <Link component={"a"} href="/create" underline="hover" color="inherit">Create Account</Link>
                 <Link component={"a"} href="/" underline="hover" color="inherit">Forgot Password?</Link>
             </div>
         </Box>
