@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Typography, Stepper, StepButton, Step, Button, Box } from '@mui/material'
+import { Typography, Stepper, StepButton, Step, Button, Box, useMediaQuery, SelectChangeEvent } from '@mui/material'
 import PersonalDetailsForm from './PersonalDetailsForm'
 import '../styles/createUserForm.sass'
 import AccountDetailsForm from './AccountDetailsForm'
@@ -7,24 +7,72 @@ import AccountDetailsForm from './AccountDetailsForm'
 const steps = ['Account Details', 'Personal Information', 'Demographic Info', 'Questionnaire', 'Review']
 
 const CreateUserForm: React.FC = () => {
-    interface State {
-        amount: string
+    type User = {
+        username: string
+        cohort: string
+        email: string
+        confirmEmail: string
         password: string
-        weight: string
-        weightRange: string
+        confirmPassword: string
         showPassword: boolean
+
+        firstName: string
+        middleName: string
+        lastName: string
+        dateOfBirth: string
+        gender: string
+        phoneNumber: string
+        streetAddress: string
+        addressUnit: string
+        city: string
+        state: string
+        county: string
+        zip: string
+        country: string
     }
 
-    const [values, setValues] = useState({
-        amount: '',
-        password: '',
-        weight: '',
-        weightRange: '',
-        showPassword: false
+    const matches = useMediaQuery('(min-width:768px)');
+
+    const [userForm, setUserForm] = useState({
+        username: '',
+        cohort: '',
+        email: '',
+        confirmEmail: '',
+        password: "",
+        confirmPassword: "",
+        showPassword: false,
+
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        dateOfBirth: "",
+        gender: "",
+        phoneNumber: "",
+        streetAddress: "",
+        addressUnit: "",
+        city: "",
+        state: "",
+        county: "",
+        zip: "",
+        country: ""
     })
 
-    const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues({ ...values, [prop]: event.target.value })
+    const handleClickShowPassword = () => {
+        setUserForm({
+            ...userForm,
+            showPassword: !userForm.showPassword
+        })
+    }
+
+    const handleChange = (prop: keyof User) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        setUserForm({ ...userForm, [prop]: event.target.value })
+    }
+
+    const handleSelectChange = (event: SelectChangeEvent) => {
+        if(event.target.name == "gender")
+        setUserForm({ ...userForm, gender: event.target.value as string })
+        if(event.target.name == "state")
+        setUserForm({ ...userForm, state: event.target.value as string })
     }
 
     const [activeStep, setActiveStep] = React.useState(0)
@@ -81,11 +129,11 @@ const CreateUserForm: React.FC = () => {
     return (
         <div className="create-form-wrapper">
             <div className="create-form">
-                <PersonalDetailsForm/>
-                {/* <AccountDetailsForm /> */}
+                {activeStep == 0 ? <AccountDetailsForm handleChange={handleChange} user={userForm} handleClickShowPassword={handleClickShowPassword}/> : null }
+                {activeStep == 1 ? <PersonalDetailsForm handleChange={handleChange}  handleSelectChange={handleSelectChange} user={userForm} /> : null }
                 <div className="create-form-controls">
                     <Box sx={{ width: '100%' }}>
-                        <Stepper nonLinear activeStep={activeStep}>
+                        {matches ?  <Stepper nonLinear activeStep={activeStep}>
                             {steps.map((label, index) => (
                                 <Step key={label} completed={completed[index]}>
                                     <StepButton color="inherit" onClick={handleStep(index)}>
@@ -93,7 +141,7 @@ const CreateUserForm: React.FC = () => {
                                     </StepButton>
                                 </Step>
                             ))}
-                        </Stepper>
+                        </Stepper> : null}
                         <div>
                             {allStepsCompleted() ? (
                                 <React.Fragment>
@@ -114,13 +162,9 @@ const CreateUserForm: React.FC = () => {
                                             Next
                                         </Button>
                                         {activeStep !== steps.length &&
-                                            (completed[activeStep] ? (
-                                                <Typography variant="caption" sx={{ display: 'inline-block' }}>
-                                                    Step {activeStep + 1} already completed
-                                                </Typography>
-                                            ) : (
+                                             (
                                                 <Button onClick={handleComplete}>{completedSteps() === totalSteps() - 1 ? 'Finish' : 'Complete Step'}</Button>
-                                            ))}
+                                            )}
                                     </Box>
                                 </React.Fragment>
                             )}

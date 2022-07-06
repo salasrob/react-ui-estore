@@ -8,6 +8,12 @@ div.create-form-wrapper
     width: 100%
     height: 100%
     border-radius: 6rem
+    @media screen AND (max-width: 360px)
+        width: 100%
+    @media screen AND (max-width: 400px) AND (min-width: 361px)
+        width: 100%
+    @media screen AND (max-width: 500px) AND (min-width: 401px)
+        width: 100%
 
 div.create-form
     display: flex
@@ -26,11 +32,35 @@ div.create-form-controls
     width: 100%
     height: 100%
     padding-top: 3rem
+    @media screen  AND (max-width: 426px)
+        padding-top: 0
 
 div.create-form-input-wrapper
     padding: 2rem
+    padding-top: 0
+
+div.create-form-input-group
+    padding-top: 2rem
+    @media screen AND (max-width: $phone-size)
+        display: flex
+        flex-direction: column
+
+
+.create-form-select-input
+    min-width: 8rem
+
+.create-form-wrapper div.MuiFormControl-root 
+    max-width: 15rem
 
 form.create-form-fields
     background-color: $sand
     border-style: solid
     border-radius: 1rem
+
+.create-form-wrapper div.MuiFormControl-root
+    margin-right: .33rem
+
+.create-form-fields h1
+    text-align: center
+.create-form-fields p
+    text-align: center
