@@ -6,3 +6,12 @@
 export const sayHello = (userName: string): string => {
     return 'Welcome ' + userName + '!'
 }
+
+export const handleMouseDownPreventDefault = (event: React.MouseEvent<HTMLButtonElement>) =>{
+    event.preventDefault();
+}
+
+export const stringToBool = (value:string): boolean => {
+         if (value.toLowerCase() === "true") return true;
+         else return false;
+ }

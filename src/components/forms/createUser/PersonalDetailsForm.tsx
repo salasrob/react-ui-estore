@@ -1,29 +1,6 @@
 import React from 'react'
 import { FormControl, InputLabel, FormHelperText, OutlinedInput, Box, Select, MenuItem, SelectChangeEvent } from '@mui/material'
-
-type User = {
-    username: string
-    cohort: string
-    email: string
-    confirmEmail: string
-    password: string
-    confirmPassword: string
-    showPassword: boolean
-
-    firstName: string
-    middleName: string
-    lastName: string
-    dateOfBirth: string
-    gender: string
-    phoneNumber: string
-    streetAddress: string
-    addressUnit: string
-    city: string
-    state: string
-    county: string
-    zip: string
-    country: string
-}
+import {User} from '../../../types/user'
 
 type Props = {
     handleChange: (prop: keyof User) => (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -33,12 +10,12 @@ type Props = {
 
 const PersonalDetailsForm: React.FC<Props> = (props) => {
     return (
-        <>
             <Box component={'form'} className="create-form-fields" autoComplete="off">
                 <h1>Personal Info</h1>
                 <p>Please fill out your personal info</p>
                 <div className="create-form-input-wrapper">
                     <div className="create-form-input-group">
+                    <h3>Name</h3>
                         <FormControl>
                             <InputLabel htmlFor="firstName">First name</InputLabel>
                             <OutlinedInput
@@ -51,7 +28,6 @@ const PersonalDetailsForm: React.FC<Props> = (props) => {
                             />
                             <FormHelperText id="firstName-helper-text">Please provide legal name</FormHelperText>
                         </FormControl>
-
                         <FormControl>
                             <InputLabel htmlFor="middleName">Middle name</InputLabel>
                             <OutlinedInput
@@ -62,7 +38,6 @@ const PersonalDetailsForm: React.FC<Props> = (props) => {
                                 onChange={props.handleChange('middleName')}
                             />
                         </FormControl>
-
                         <FormControl>
                             <InputLabel htmlFor="lastName">Last name</InputLabel>
                             <OutlinedInput
@@ -75,7 +50,7 @@ const PersonalDetailsForm: React.FC<Props> = (props) => {
                         </FormControl>
                     </div>
                     <div className="create-form-input-group">
-                        <InputLabel htmlFor="dateOfBirth">DOB</InputLabel>
+                    <h3>DOB/Gender</h3>
                         <FormControl>
                             <OutlinedInput
                                 id="dateOfBirth"
@@ -86,11 +61,15 @@ const PersonalDetailsForm: React.FC<Props> = (props) => {
                             />
                             <FormHelperText id="date-helper-text">Please provide your date of birth</FormHelperText>
                         </FormControl>
-
                         <FormControl>
                             <InputLabel htmlFor="gender">Gender</InputLabel>
-                            <Select className="create-form-select-input" name="gender" value={props.user.gender} onChange={props.handleSelectChange}>
-                                <MenuItem value="">
+                            <Select className="create-form-select-input" 
+                                name="gender" 
+                                label="Gender"
+                                value={props.user.gender} 
+                                onChange={props.handleSelectChange}>
+                                <MenuItem value=""
+                            >
                                     <em>None</em>
                                 </MenuItem>
                                 <MenuItem value={'male'}>Male</MenuItem>
@@ -99,8 +78,10 @@ const PersonalDetailsForm: React.FC<Props> = (props) => {
                                 <MenuItem value={'other'}>Other</MenuItem>
                             </Select>
                         </FormControl>
-
-                        <FormControl>
+                    </div>
+                    <div className="create-form-input-group">
+                    <h3>Contact Info</h3>
+                    <FormControl>
                             <InputLabel htmlFor="phoneNumber">Phone number</InputLabel>
                             <OutlinedInput
                                 className="create-form-input"
@@ -110,8 +91,29 @@ const PersonalDetailsForm: React.FC<Props> = (props) => {
                                 onChange={props.handleChange('phoneNumber')}
                             />
                         </FormControl>
+                        <FormControl>
+                            <InputLabel htmlFor="email">Email</InputLabel>
+                            <OutlinedInput
+                                className="create-form-input"
+                                id="email"
+                                label="Email"
+                                value={props.user.email}
+                                onChange={props.handleChange('email')}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <InputLabel htmlFor="confirmEmail">Confirm Email</InputLabel>
+                            <OutlinedInput
+                                className="create-form-input"
+                                id="confirmEmail"
+                                label="Confirm Email"
+                                value={props.user.confirmEmail}
+                                onChange={props.handleChange('confirmEmail')}
+                            />
+                        </FormControl>
                     </div>
                     <div className="create-form-input-group">
+                        <h3>Address</h3>
                         <FormControl>
                             <InputLabel htmlFor="streetAddress">Street address</InputLabel>
                             <OutlinedInput
@@ -122,7 +124,6 @@ const PersonalDetailsForm: React.FC<Props> = (props) => {
                                 onChange={props.handleChange('streetAddress')}
                             />
                         </FormControl>
-
                         <FormControl>
                             <InputLabel htmlFor="addressUnit">Unit</InputLabel>
                             <OutlinedInput
@@ -137,9 +138,13 @@ const PersonalDetailsForm: React.FC<Props> = (props) => {
                     <div className="create-form-input-group">
                         <FormControl>
                             <InputLabel htmlFor="city">City</InputLabel>
-                            <OutlinedInput className="create-form-input" id="city" label="City" value={props.user.city} onChange={props.handleChange('city')} />
+                            <OutlinedInput 
+                                className="create-form-input" 
+                                id="city" label="City" 
+                                value={props.user.city} 
+                                onChange={props.handleChange('city')} 
+                            />
                         </FormControl>
-
                         <FormControl>
                             <InputLabel htmlFor="state">State</InputLabel>
                             <Select
@@ -158,7 +163,6 @@ const PersonalDetailsForm: React.FC<Props> = (props) => {
                                 <MenuItem value={'NV'}>Nevada</MenuItem>
                             </Select>
                         </FormControl>
-
                         <FormControl>
                             <InputLabel htmlFor="county">County</InputLabel>
                             <OutlinedInput
@@ -188,7 +192,6 @@ const PersonalDetailsForm: React.FC<Props> = (props) => {
                     </div>
                 </div>
             </Box>
-        </>
     )
 }
 export default PersonalDetailsForm

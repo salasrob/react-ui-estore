@@ -1,41 +1,29 @@
 
 import React, { useState } from 'react'
-import { FormControl, InputLabel, IconButton, FormHelperText, InputAdornment, OutlinedInput, Link, Button, Box} from '@mui/material'
+import { FormControl, InputLabel, IconButton, InputAdornment, OutlinedInput, Link, Button, Box} from '@mui/material'
 import {AccountCircle , Visibility, VisibilityOff} from '@mui/icons-material'
-import '../styles/loginForm.sass'
+import {handleMouseDownPreventDefault} from '../../../utility/functions'
+import { Login } from '../../../types/user'
+import '../../../styles/loginForm.sass'
 
 const LoginForm: React.FC = () => {
 
-    interface State {
-        amount: string;
-        password: string;
-        weight: string;
-        weightRange: string;
-        showPassword: boolean;
-      }
-
-      const [values, setValues] = useState({
-          amount: '',
+      const [formValues, setFormValues] = useState({
+          email: '',
           password: '',
-          weight: '',
-          weightRange: '',
           showPassword: false,
         });
 
         const handleChange =
-          (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-            setValues({ ...values, [prop]: event.target.value });
+          (prop: keyof Login) => (event: React.ChangeEvent<HTMLInputElement>) => {
+            setFormValues({ ...formValues, [prop]: event.target.value });
           };
 
         const handleClickShowPassword = () => {
-          setValues({
-            ...values,
-            showPassword: !values.showPassword,
+            setFormValues({
+            ...formValues,
+            showPassword: !formValues.showPassword,
           });
-        };
-
-        const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-          event.preventDefault();
         };
     
     return (
@@ -43,9 +31,10 @@ const LoginForm: React.FC = () => {
             <FormControl>
                 <InputLabel htmlFor="email">Email address</InputLabel>
                 <OutlinedInput
+                onChange={handleChange('email')}
+                value={formValues.email}
                 className="login-form-input"
                 id="email" 
-                aria-describedby="email-helper-text" 
                 label="Email address" 
                 endAdornment={
                 <InputAdornment position="end">
@@ -53,7 +42,6 @@ const LoginForm: React.FC = () => {
                 </InputAdornment>
                 }
                 />
-                <FormHelperText id="email-helper-text">We&apos;ll never share your email.</FormHelperText>
             </FormControl>
 
             <FormControl variant="outlined">
@@ -61,18 +49,18 @@ const LoginForm: React.FC = () => {
                 <OutlinedInput
                     className='login-form-input'
                     id="outlined-adornment-password"
-                    type={values.showPassword ? 'text' : 'password'}
-                    value={values.password}
+                    type={formValues.showPassword ? 'text' : 'password'}
+                    value={formValues.password}
                     onChange={handleChange('password')}
                     endAdornment={
                     <InputAdornment position="end">
                         <IconButton
                         aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
+                        onMouseDown={handleMouseDownPreventDefault}
                         edge="end"
                         >
-                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                        {formValues.showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                     </InputAdornment>
                     }
@@ -83,7 +71,7 @@ const LoginForm: React.FC = () => {
 
             <div className="login-form-wrapper">
                 <Link component={"a"} href="/create" underline="hover" color="inherit">Create Account</Link>
-                <Link component={"a"} href="/" underline="hover" color="inherit">Forgot Password?</Link>
+                <Link component={"a"} href="/reset" underline="hover" color="inherit">Forgot Password?</Link>
             </div>
         </Box>
     )
